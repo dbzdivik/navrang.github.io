@@ -1,4 +1,4 @@
-![Navrang Store](http://navrang.github.io/)
+[Navrang Store](http://navrang.tk/)
 
 Website Compatile with Android Application. Website is used as e-Reciept
 ========================================================================
