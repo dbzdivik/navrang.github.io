@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Navrang Store |-Invoice Viewer-|</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel="stylesheet" href="css/invoice.css">
+<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-database.js"></script> 
+<script type="text/javascript">
+var config = {
+	apiKey: "AIzaSyBOQpE89-oCl_7WEbNJ5kNfUqX9oAJV3_Y",
+    authDomain: "mp0s-d0e4a.firebaseapp.com",
+    databaseURL: "https://mp0s-d0e4a.firebaseio.com",
+    storageBucket: "gs://mp0s-d0e4a.appspot.com/"
+  };firebase.initializeApp(config);
+ </script> 
+<script type="text/javascript">
+var ref = firebase.database().ref("InsertInvoice/"+localStorage.getItem("invoice_key"));
+ref.once('value').then(function(data) {
+document.getElementById('invoice_no').innerHTML = data.val().invoice_number;
+document.getElementById('invoice_date').innerHTML = data.val().invoice_date;
+document.getElementById('payment_mode').innerHTML = data.val().payment_mode;
+document.getElementById('invoice_time').innerHTML = data.val().invoice_time;
+document.getElementById('invoice_item').innerHTML = data.val().total_item;
+document.getElementById('invoice_amount').innerHTML = "₹ " + data.val().total_amount;
+if(data.val().user_discount != "0")
+{
+document.getElementById('discount_text').innerHTML = "Discount";
+document.getElementById('payable_text').innerHTML = "Payable Amount";
+document.getElementById('discount_amount').innerHTML = "₹ " + data.val().user_discount;
+document.getElementById('payable_amount').innerHTML = "₹ " + (data.val.total_amount - data.val.user_discount);
+}
+var products = data.val().products.split(";");
+var i;
+	for (i=0;i<products.length;i++)	{
+	var product = products[i].split(",");
+	if (product[1] != undefined)
+	{
+	document.getElementById('sno').innerHTML += i+1+"<br>";
+	document.getElementById('item').innerHTML += product[0]+"<br>";
+	document.getElementById('rate').innerHTML += product[1]+"<br>";
+	document.getElementById('qty').innerHTML += product[2]+"<br>";
+	document.getElementById('price').innerHTML += (product[1]*product[2])+"<br>";
+	}
+	}
+},function (error){console.log("Error: " + error.code);});
+</script>
+ </head>
+<body>
+<section class="performance-facts">
+<header class="performance-facts__header">
+<h1 class="performance-facts__title"><u>Navrang Patanjali Store</u></h1>
+	<p>Panditwari,Dehradun</p>
+	<p>Mobile  :- +91-9759224224</p>
+	<p>GST No. :- 05BMDPR0646B1ZH</p>
+</header>
+<table class="performance-facts__table">
+<thead>
+	<tr>
+	<td>Invoice</td><td id="invoice_no"></td>
+	<td>Date</td><td id="invoice_date"></td>
+	</tr>
+</thead>
+<tbody>
+	<tr>
+	<td>Payment Via</td><td id="payment_mode"></td>
+	<td>Time</td><td id="invoice_time"></td>
+	</tr>
+</tbody>
+<table class="performance-facts__table small">
+<thead>
+	<tr>
+		<td colspan="1">S.No.</td>
+		<th>Item </th>
+		<th>Rate </th>
+		<th>Qty. </th>
+		<th>Price</th>
+	</tr>
+</thead>
+<tbody>
+      <tr>
+        <th colspan="1"id="sno"></th>
+		<td id="item"></th>
+        <td id="rate"></td>
+        <td id="qty"></td>
+        <td id="price"></td>
+      </tr>
+</tbody>
+</table>
+<table class="performance-facts__table">
+<thead>
+	<tr>
+	<td>Total Items</td><td id="invoice_item"></td>
+	</tr>
+	<tr>
+	<td>Current Amount</td><td id="invoice_amount"></td>
+	</tr>
+	<tr>
+	<td id="discount_text"></td><td id="discount_amount"></td>
+	</tr>
+	<tr>
+	<td id="payable_text"></td><td id="payable_amount"></td>
+	</tr>
+<thead>
+</section>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+</body>
+</html>
