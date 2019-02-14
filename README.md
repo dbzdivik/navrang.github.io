@@ -1,3 +1,5 @@
+Navrang Store[http://navrang.github.io/]
+
 Website Compatile with Android Application. Website is used as e-Reciept
 ========================================================================
 
